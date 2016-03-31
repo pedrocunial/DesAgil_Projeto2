@@ -8,5 +8,9 @@ public class NotGate extends LogicGate {
 		boolean sinalA = pinA.getSource().getOutputValue(pinA.getIndex());
 		return !sinalA;
 	}
+	
+	public void setPinA(InputPin pinA) {
+		this.pinA = pinA;
+	}
 
 }
