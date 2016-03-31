@@ -8,7 +8,7 @@ public class OrGate extends LogicGate {
 	public boolean getOutputValue(int index) {
 		boolean sinalA = pinA.getSource().getOutputValue(pinA.getIndex());
 		boolean sinalB = pinB.getSource().getOutputValue(pinB.getIndex());
-		return sinalA && sinalB;
+		return sinalA || sinalB;
 	}
 	
 	
