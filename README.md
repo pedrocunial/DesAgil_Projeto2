@@ -1,7 +1,7 @@
 # Desenvolvimento Colaborativo Ágil
-## Insper
+#### Insper
 
-## Projeto2
-### Por Pedro Cunial e João Pedro Castro
+#### Projeto2
+##### Por Pedro Cunial e João Pedro Castro
 
 
