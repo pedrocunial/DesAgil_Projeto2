@@ -3,12 +3,11 @@ package desagil.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-
-public class AndGateTest {
+public class XorGateTest {
 	
 	@Test
 	public void comEntradaTrueTrue() {
-		AndGate and = new AndGate();
+		XorGate xor = new XorGate();
 		Switch inA = new Switch();
 		Switch inB = new Switch();
 		
@@ -21,16 +20,16 @@ public class AndGateTest {
 		pinA.setIndex(0); // Não tem utilidade por enquanto, mas vamos dar nome aos fios
 		pinB.setIndex(1);
 		
-		and.setPinA(pinA);
-		and.setPinB(pinB);
+		xor.setPinA(pinA);
+		xor.setPinB(pinB);
 			
-		Assert.assertTrue(and.getOutputValue(0));
+		Assert.assertFalse(xor.getOutputValue(0));
 		
 	}
 	
 	@Test
 	public void comEntradaTrueFalse() {
-		AndGate and = new AndGate();
+		XorGate xor = new XorGate();
 		Switch inA = new Switch();
 		Switch inB = new Switch();
 		
@@ -43,16 +42,16 @@ public class AndGateTest {
 		pinA.setIndex(0);
 		pinB.setIndex(1);
 		
-		and.setPinA(pinA);
-		and.setPinB(pinB);
+		xor.setPinA(pinA);
+		xor.setPinB(pinB);
 			
-		Assert.assertFalse(and.getOutputValue(0));
+		Assert.assertTrue(xor.getOutputValue(0));
 		
 	}
 	
 	@Test
 	public void comEntradaFalseTrue() {
-		AndGate and = new AndGate();
+		XorGate xor = new XorGate();
 		Switch inA = new Switch();
 		Switch inB = new Switch();
 		
@@ -65,16 +64,16 @@ public class AndGateTest {
 		pinA.setIndex(0);
 		pinB.setIndex(1);
 		
-		and.setPinA(pinA);
-		and.setPinB(pinB);
+		xor.setPinA(pinA);
+		xor.setPinB(pinB);
 			
-		Assert.assertFalse(and.getOutputValue(0));
+		Assert.assertTrue(xor.getOutputValue(0));
 		
 	}
 	
 	@Test
 	public void comEntradaFalseFalse() {
-		AndGate and = new AndGate();
+		XorGate xor = new XorGate();
 		Switch inA = new Switch();
 		Switch inB = new Switch();
 		
@@ -87,10 +86,10 @@ public class AndGateTest {
 		pinA.setIndex(0);
 		pinB.setIndex(1);
 		
-		and.setPinA(pinA);
-		and.setPinB(pinB);
+		xor.setPinA(pinA);
+		xor.setPinB(pinB);
 			
-		Assert.assertFalse(and.getOutputValue(0));
+		Assert.assertFalse(xor.getOutputValue(0));
 		
 	}
 }

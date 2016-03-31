@@ -13,4 +13,14 @@ abstract class LogicGate implements Source, Drain {
 		
 	}
 	
+	public InputPin getOutputPin(int index) {
+		boolean sinal = getOutputValue(0);
+		InputPin outputPin = new InputPin();
+		Switch s = new Switch();
+		
+		s.setOutputValue(sinal);
+		outputPin.setSource(s);
+		return outputPin;
+	}
+	
 }
