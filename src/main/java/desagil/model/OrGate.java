@@ -10,6 +10,13 @@ public class OrGate extends LogicGate {
 		boolean sinalB = pinB.getSource().getOutputValue(pinB.getIndex());
 		return sinalA || sinalB;
 	}
-	
+
+	public void setPinA(InputPin pinA) {
+		this.pinA = pinA;
+	}
+
+	public void setPinB(InputPin pinB) {
+		this.pinB = pinB;
+	}
 	
 }

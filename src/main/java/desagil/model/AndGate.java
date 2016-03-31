@@ -11,5 +11,12 @@ public class AndGate extends LogicGate {
 		return sinalA && sinalB;
 	}
 
+	public void setPinA(InputPin pinA) {
+		this.pinA = pinA;
+	}
+
+	public void setPinB(InputPin pinB) {
+		this.pinB = pinB;
+	}
 
 }
