@@ -1,8 +1,14 @@
 package desagil.model;
 
 public class InputPin {
-	Source source;
-	int index;
+	private Source source;
+	private int index;
 	
+	public Source getSource() {
+		return source;
+	}
+	public int getIndex() {
+		return index;
+	}
 	
 }

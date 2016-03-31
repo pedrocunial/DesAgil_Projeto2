@@ -1,8 +1,8 @@
 package desagil.model;
 
-public class LogicGate implements Source, Drain {
-	boolean outputValue;
-	InputPin input;	
+abstract class LogicGate implements Source, Drain {
+	private boolean outputValue;
+	private InputPin input;	
 	
 	public boolean getOutputValue(int index) {
 		if(index == 1) {

@@ -1,7 +1,7 @@
 package desagil.model;
 
 public class Switch implements Source {
-	boolean outputValue;
+	private boolean outputValue;
 	
 	public boolean getOutputValue(int index) {
 		if(index == 1) {
