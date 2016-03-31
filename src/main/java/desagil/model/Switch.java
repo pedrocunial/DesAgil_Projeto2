@@ -14,8 +14,4 @@ public class Switch implements Source {
 		return outputValue;
 	}
 
-	public void setOutputValue(boolean outputValue) {
-		this.outputValue = outputValue;
-	}
-
 }
