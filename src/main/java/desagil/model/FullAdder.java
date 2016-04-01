@@ -39,7 +39,7 @@ public class FullAdder extends LogicGate{
 		InputPin sumA = new InputPin();
 		InputPin carryA = new InputPin();
 		
-		sumA = halfA.getOutputPin(0);
+		sumA.setSource(halfA);
 		halfB.setPinA(sumA);
 		halfB.setPinB(pinC);
 				
@@ -48,40 +48,14 @@ public class FullAdder extends LogicGate{
 			
 		} else {
 			InputPin carryB = new InputPin();
-			carryB = halfB.getOutputPin(1);
-			carryA = halfA.getOutputPin(1);
+			carryB.setSource(halfB);
+			carryA.setSource(halfA);
 			or.setPinA(carryA);
 			or.setPinB(carryB);
 			resposta = or.getOutputValue(0);
 			
 		}
 		return resposta;
-	
 	}
-	
-	@Override
-	public InputPin getOutputPin(int index) {
-		this.index = index;
-		InputPin outputPin = new InputPin();
-
-		if(index == 0) {
-			boolean sinal = getOutputValue(0);
-			Switch s = new Switch();
-			
-			s.setOutputValue(sinal);
-			outputPin.setSource(s);
-		
-		} else {
-			boolean sinal = getOutputValue(1);
-			Switch s = new Switch();
-			
-			s.setOutputValue(sinal);
-			outputPin.setSource(s);
-			
-		}		
-		return outputPin;
-		
-	}
-	
 
 }

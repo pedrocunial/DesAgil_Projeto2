@@ -18,6 +18,8 @@ public class HalfAdder extends LogicGate {
 		this.pinB = pinB;
 	}
 	
+	
+	
 	@Override
 	public boolean getOutputValue(int index) {
 		this.index = index;
@@ -39,29 +41,4 @@ public class HalfAdder extends LogicGate {
 		
 		return resposta;
 	}
-
-	@Override
-	public InputPin getOutputPin(int index) {
-		this.index = index;
-		InputPin outputPin = new InputPin();
-
-		if(index == 0) {
-			boolean sinal = getOutputValue(0);
-			Switch s = new Switch();
-			
-			s.setOutputValue(sinal);
-			outputPin.setSource(s);
-		
-		} else {
-			boolean sinal = getOutputValue(1);
-			Switch s = new Switch();
-			
-			s.setOutputValue(sinal);
-			outputPin.setSource(s);
-			
-		}		
-		return outputPin;
-		
-	}
-	
 }

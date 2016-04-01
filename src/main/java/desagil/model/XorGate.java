@@ -25,9 +25,9 @@ public class XorGate extends LogicGate {
 		InputPin pinC = new InputPin();
 		InputPin pinD = new InputPin();
 		
-		pinC = notA.getOutputPin(0);
-		pinD = notB.getOutputPin(0);
-				
+		pinC.setSource(notA);
+		pinD.setSource(notB);
+		
 		andA.setPinA(pinC);
 		andA.setPinB(pinB);
 		andB.setPinA(pinA);
@@ -36,8 +36,8 @@ public class XorGate extends LogicGate {
 		InputPin pinE = new InputPin();
 		InputPin pinF = new InputPin();
 		
-		pinE = andA.getOutputPin(0);
-		pinF = andB.getOutputPin(0);
+		pinE.setSource(andA);
+		pinF.setSource(andB);
 				
 		OrGate or = new OrGate();
 		or.setPinA(pinE);
