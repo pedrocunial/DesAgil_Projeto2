@@ -12,7 +12,7 @@ public class Screen implements ActionListener{
 	// https://www.youtube.com/watch?v=GvTZ2Huo0T4 << Tutorial que estou usando
 	// e suas respectivas continuações
 	
-	private static JFrame frame;
+	private JFrame frame;
 	private JPanel panel;
 	private JButton buttonSelecionar;
 	private JLabel frameTitle;
@@ -23,20 +23,20 @@ public class Screen implements ActionListener{
 		frame = new JFrame("Simulador de Portas Lógicas");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		Insets insets = frame.getInsets();
-		frame.setSize(300 + insets.left + insets.right,
-	              150 + insets.top + insets.bottom);
+		frame.setSize(600 + insets.left + insets.right,
+	              400 + insets.top + insets.bottom);
 		
 		comboBox = new JComboBox<Object>(portas);
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(this);
 				
 		panel = new JPanel();
-		panel.setBackground(Color.WHITE);
 		panel.setLayout(null);
+		panel.setBackground(Color.WHITE);
 		
-		buttonSelecionar = new JButton("Selecionar");
-		
+		buttonSelecionar = new JButton("Selecionar");		
 		frameTitle = new JLabel("Escolha uma porta");		 
 	
 		panel.add(buttonSelecionar);
@@ -52,14 +52,24 @@ public class Screen implements ActionListener{
 		size = frameTitle.getPreferredSize();
 		frameTitle.setBounds(12 + insets.left,
 				insets.top, size.width, size.height);
-		
+
 		frame.add(panel);
-			
+		
 	}
 
 
 	public static void main(String[] args) {
-		new Screen();
+	    // Não sei se você lembra que eu comentei com você que a minha janela
+		// ficava cinza quando eu iniciava o programa, achei um problema
+		// semelhante com e eis a solução, segue o link que eu encontrei
+		// http://stackoverflow.com/questions/12295056/gui-elements-not-showing-until-resize-of-window
+		
+		SwingUtilities.invokeLater(new Runnable(){
+			// Classe abstrata
+			public void run(){
+				new Screen();
+			}
+	    });
 	}
 
 	@Override
