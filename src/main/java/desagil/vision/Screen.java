@@ -36,7 +36,17 @@ public class Screen implements ActionListener{
 		panel.setLayout(null);
 		panel.setBackground(Color.WHITE);
 		
-		buttonSelecionar = new JButton("Selecionar");		
+		buttonSelecionar = new JButton("Selecionar");
+		buttonSelecionar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+			    // Confere o valor da comboBox selecionado no momento
+				// Será usado para saber qual porta deverá ser desenhada
+			    int i = comboBox.getSelectedIndex();
+			    System.out.println(portas[i]);     
+			}
+		});
+		
 		frameTitle = new JLabel("Escolha uma porta");		 
 	
 		panel.add(buttonSelecionar);
@@ -64,18 +74,18 @@ public class Screen implements ActionListener{
 		// semelhante com e eis a solução, segue o link que eu encontrei
 		// http://stackoverflow.com/questions/12295056/gui-elements-not-showing-until-resize-of-window
 		
-		SwingUtilities.invokeLater(new Runnable(){
-			// Classe abstrata
-			public void run(){
+		SwingUtilities.invokeLater(new Runnable() {
+			// Classe anônima
+			public void run() {
 				new Screen();
 			}
 	    });
 	}
 
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-	
 }

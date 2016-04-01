@@ -17,8 +17,6 @@ public class OrGateTest {
 		InputPin pinB = new InputPin();
 		pinA.setSource(inA);
 		pinB.setSource(inB);
-		pinA.setIndex(0);
-		pinB.setIndex(1);
 		
 		or.setPinA(pinA);
 		or.setPinB(pinB);
@@ -39,8 +37,6 @@ public class OrGateTest {
 		InputPin pinB = new InputPin();
 		pinA.setSource(inA);
 		pinB.setSource(inB);
-		pinA.setIndex(0);
-		pinB.setIndex(1);
 		
 		or.setPinA(pinA);
 		or.setPinB(pinB);
@@ -61,8 +57,6 @@ public class OrGateTest {
 		InputPin pinB = new InputPin();
 		pinA.setSource(inA);
 		pinB.setSource(inB);
-		pinA.setIndex(0); // Não tem utilidade por enquanto, mas vamos dar nome aos fios
-		pinB.setIndex(1);
 		
 		or.setPinA(pinA);
 		or.setPinB(pinB);
@@ -83,8 +77,6 @@ public class OrGateTest {
 		InputPin pinB = new InputPin();
 		pinA.setSource(inA);
 		pinB.setSource(inB);
-		pinA.setIndex(0);
-		pinB.setIndex(1);
 		
 		or.setPinA(pinA);
 		or.setPinB(pinB);

@@ -14,7 +14,6 @@ public class NotGateTest {
 		in.setOutputValue(true);
 		InputPin pinA = new InputPin();
 		pinA.setSource(in);
-		pinA.setIndex(0); // Não tem utilidade por enquanto, mas vamos dar nome aos fios
 		
 		not.setPinA(pinA);
 		
@@ -30,7 +29,6 @@ public class NotGateTest {
 		in.setOutputValue(false);
 		InputPin pinA = new InputPin();
 		pinA.setSource(in);
-		pinA.setIndex(1);
 		
 		not.setPinA(pinA);
 		
