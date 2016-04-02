@@ -25,7 +25,9 @@ public class Screen extends JPanel implements ActionListener {
 	private JComboBox<Object> entradasA;
 	private JComboBox<Object> entradasB;
 	private BufferedImage lampadaOn, lampadaOff, currentImage; // Carregar imagens
-	private JLabel lampada; // Usar para inserir no painel
+	private BufferedImage switchOnA, switchOffA, currentSwitchStateA;
+	private BufferedImage switchOnB, switchOffB, currentSwitchStateB;
+	private JLabel lampada, switchA, switchB; // Usar para inserir no painel
 	int frameWidth, frameHeight;
 	
 	
@@ -38,11 +40,11 @@ public class Screen extends JPanel implements ActionListener {
 		comboBox.addActionListener(this);
 		
 		entradasA = new JComboBox<Object>(entradas);
-		entradasA.setSelectedIndex(0);
+		entradasA.setSelectedIndex(1);
 		entradasA.addActionListener(this);
 		
 		entradasB = new JComboBox<Object>(entradas);
-		entradasB.setSelectedIndex(0);
+		entradasB.setSelectedIndex(1);
 		entradasB.addActionListener(this);
 						
 		panel = new JPanel();
@@ -53,6 +55,11 @@ public class Screen extends JPanel implements ActionListener {
 		try {
 			lampadaOn = Image.makeImage("src/img/lampadaOn.jpg");
 			lampadaOff = Image.makeImage("src/img/lampadaOff.jpg");
+			switchOnA = Image.makeImage("src/img/switchOn.png");
+			switchOnB = Image.makeImage("src/img/switchOn.png");
+			switchOffA = Image.makeImage("src/img/switchOff.png");
+			switchOffB = Image.makeImage("src/img/switchOff.png");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,12 +68,18 @@ public class Screen extends JPanel implements ActionListener {
 		try {
 			lampadaOn = Image.resizeBufferedImage(lampadaOn, 50, 50);
 			lampadaOff = Image.resizeBufferedImage(lampadaOff, 50, 50);
+			switchOnA = Image.resizeBufferedImage(switchOnA, 50, 50);
+			switchOnB = Image.resizeBufferedImage(switchOnB, 50, 50);
+			switchOffA = Image.resizeBufferedImage(switchOffA, 50, 50);
+			switchOffB = Image.resizeBufferedImage(switchOffB, 50, 50);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		lampada = Image.bufferedImageToJLabel(lampadaOn);
+		lampada = Image.bufferedImageToJLabel(lampadaOff);
+		switchA = Image.bufferedImageToJLabel(switchOffA);
+		switchB = Image.bufferedImageToJLabel(switchOffB);
 		
 		buttonSelecionar = new JButton("Selecionar");
 		buttonSelecionar.addActionListener(new ActionListener() {
@@ -84,13 +97,28 @@ public class Screen extends JPanel implements ActionListener {
 			    if(entradasA.getSelectedIndex() == 0) {
 					currentImage = lampadaOn;
 					System.out.println("Hiiii");
+					currentSwitchStateA = switchOnA;
 					
 				} else {
 					currentImage = lampadaOff;
 					System.out.println("BaiiiiI");
+					currentSwitchStateA = switchOffA;
 
 				}
+			    
+			    if(entradasB.getSelectedIndex() == 0) {
+					System.out.println("Hola que tal");
+					currentSwitchStateB = switchOnB;
+					
+				} else {
+					System.out.println("Adios");
+					currentSwitchStateB = switchOffB;
+
+				}
+			    
 				lampada.setIcon(new ImageIcon(currentImage));
+				switchA.setIcon(new ImageIcon(currentSwitchStateA));
+				switchB.setIcon(new ImageIcon(currentSwitchStateB));
 				panel.repaint();
 
 		    	panel.getToolkit().sync();
@@ -115,6 +143,8 @@ public class Screen extends JPanel implements ActionListener {
 		panel.add(entradasB);
 		panel.add(tituloSwitchA);
 		panel.add(tituloSwitchB);
+		panel.add(switchA);
+		panel.add(switchB);
 
 		
 		frame = new JFrame("Simulador de Portas Lógicas");
@@ -136,18 +166,24 @@ public class Screen extends JPanel implements ActionListener {
 		frameTitle.setBounds((300 - size.width / 2) + insets.left, insets.top, size.width, size.height);
 		
 		size = entradasA.getPreferredSize();
-		entradasA.setBounds(25 + insets.left, 250 + insets.left, size.width, size.height);
+		entradasA.setBounds(25 + insets.left, 250 + insets.top, size.width, size.height);
 		size = entradasB.getPreferredSize();
-		entradasB.setBounds(25 + insets.left, 350 + insets.left, size.width, size.height);
+		entradasB.setBounds(25 + insets.left, 350 + insets.top, size.width, size.height);
 		
 		size = tituloSwitchA.getPreferredSize();
-		tituloSwitchA.setBounds(25 + insets.left, 230 + insets.left, size.width, size.height);
+		tituloSwitchA.setBounds(25 + insets.left, 230 + insets.top, size.width, size.height);
 		size = tituloSwitchB.getPreferredSize();
-		tituloSwitchB.setBounds(25 + insets.left, 330 + insets.left, size.width, size.height);
+		tituloSwitchB.setBounds(25 + insets.left, 330 + insets.top, size.width, size.height);
 		
 		size = lampada.getPreferredSize();
-		lampada.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.left, size.width, size.height);
-
+		lampada.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+		
+		size = switchA.getPreferredSize();
+		switchA.setBounds(150 + insets.left, 230 + insets.top, size.width, size.height);
+		
+		size = switchB.getPreferredSize();
+		switchB.setBounds(150 + insets.left, 330 + insets.top, size.width, size.height);
+		
         frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computador do usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
         frame.setVisible(true);
 		frame.add(panel);
