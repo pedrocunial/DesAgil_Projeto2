@@ -3,9 +3,9 @@
 ###### Pedro Cunial e João Pedro Castro
 ###### Prof. Marcelo Hashimoto
 
+## Proposta
+
 O objetivo do projeto é, utilizando TDD (desenvolvimento guiado à testes), montar um sistema que implemente portas lógicas em uma interface visual.
-
-
 
 ## Notas de instalação
 
