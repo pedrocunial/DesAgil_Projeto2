@@ -104,22 +104,18 @@ public class Screen extends JPanel implements ActionListener {
 			    
 			    if(entradasA.getSelectedIndex() == 0) {
 					currentImage = lampadaOn;
-					System.out.println("Hiiii");
 					currentSwitchStateA = switchOnA;
 					
 				} else {
 					currentImage = lampadaOff;
-					System.out.println("BaiiiiI");
 					currentSwitchStateA = switchOffA;
 
 				}
 			    
 			    if(entradasB.getSelectedIndex() == 0) {
-					System.out.println("Hola que tal");
 					currentSwitchStateB = switchOnB;
 					
 				} else {
-					System.out.println("Adios");
 					currentSwitchStateB = switchOffB;
 
 				}
