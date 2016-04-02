@@ -18,7 +18,7 @@ public class XorGate extends LogicGate {
 		NotGate notA = new NotGate();
 		NotGate notB = new NotGate();
 		
-		// Fazendo a lógica da porta Xor com as que eu já feitas
+		// Fazendo a lógica da porta Xor com as que eu já fiz
 		notA.setPinA(pinA);
 		notB.setPinA(pinB);
 		

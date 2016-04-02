@@ -8,12 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Screen implements ActionListener {
+public class Screen extends JPanel implements ActionListener {
 	
 	// Estou fazendo um teste para aprender a usar JFrame, Panel etc
 	// https://www.youtube.com/watch?v=GvTZ2Huo0T4 << Tutorial que estou usando
 	// e suas respectivas continuações
-	
+
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JPanel panel;
 	private JButton buttonSelecionar;
@@ -23,22 +24,15 @@ public class Screen implements ActionListener {
 	private String[] entradas = {"Ligado", "Desligado"};
 	private JComboBox<Object> entradasA;
 	private JComboBox<Object> entradasB;
-	private BufferedImage lampadaOn, lampadaOff; // Carregar imagens
+	private BufferedImage lampadaOn, lampadaOff, currentImage; // Carregar imagens
 	private JLabel lampada; // Usar para inserir no painel
 	int frameWidth, frameHeight;
 	
 	
 	public Screen() {
-		frame = new JFrame("Simulador de Portas Lógicas");
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		frameWidth = 600;
 		frameHeight = 500;
-		
-		Insets insets = frame.getInsets();
-		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
-		
+				
 		comboBox = new JComboBox<Object>(portas);
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(this);
@@ -54,23 +48,8 @@ public class Screen implements ActionListener {
 		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(Color.WHITE);
+		panel.setLocation(frameWidth, frameHeight);
 		
-		buttonSelecionar = new JButton("Selecionar");
-		buttonSelecionar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-			    // Confere o valor da comboBox selecionado no momento
-				// Será usado para saber qual porta deverá ser desenhada
-			    int i = comboBox.getSelectedIndex();
-			    int j = entradasA.getSelectedIndex();
-			    int k = entradasB.getSelectedIndex();
-			    System.out.println(portas[i]);
-			    System.out.println(entradas[j]);
-			    System.out.println(entradas[k]);
-			    
-			}
-		});
-
 		try {
 			lampadaOn = Image.makeImage("src/img/lampadaOn.jpg");
 			lampadaOff = Image.makeImage("src/img/lampadaOff.jpg");
@@ -87,13 +66,45 @@ public class Screen implements ActionListener {
 			e.printStackTrace();
 		}
 		
-		lampada = Image.bufferedImageToJLabel(lampadaOn);	
+		lampada = Image.bufferedImageToJLabel(lampadaOn);
+		
+		buttonSelecionar = new JButton("Selecionar");
+		buttonSelecionar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+			    // Confere o valor da comboBox selecionado no momento
+				// Será usado para saber qual porta deverá ser desenhada
+			    int i = comboBox.getSelectedIndex();
+			    int j = entradasA.getSelectedIndex();
+			    int k = entradasB.getSelectedIndex();
+			    System.out.println(portas[i]);
+			    System.out.println(entradas[j]);
+			    System.out.println(entradas[k]);
+			    
+			    if(entradasA.getSelectedIndex() == 0) {
+					currentImage = lampadaOn;
+					System.out.println("Hiiii");
+					
+				} else {
+					currentImage = lampadaOff;
+					System.out.println("BaiiiiI");
+
+				}
+				lampada.setIcon(new ImageIcon(currentImage));
+				panel.repaint();
+
+		    	panel.getToolkit().sync();
+			    
+			}
+		});
+
+
+		panel.add(lampada);
 		
 		frameTitle = new JLabel("Escolha uma Porta");
 		frameTitle.setFont(new Font("", Font.PLAIN, 24));
 		tituloSwitchA = new JLabel("Seletor A");
 		tituloSwitchB = new JLabel("Seletor B");
-		
 		
 				
 		// Adiciona o que criamos no painel
@@ -104,7 +115,14 @@ public class Screen implements ActionListener {
 		panel.add(entradasB);
 		panel.add(tituloSwitchA);
 		panel.add(tituloSwitchB);
-		panel.add(lampada);
+
+		
+		frame = new JFrame("Simulador de Portas Lógicas");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Insets insets = frame.getInsets();
+		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
+		
 		
 		// Define a posição do que criamos no painel (poderiamos usar para alterar o tamanho, mas isso "distorceria
 		// os icones e textos
@@ -128,10 +146,11 @@ public class Screen implements ActionListener {
 		tituloSwitchB.setBounds(25 + insets.left, 330 + insets.left, size.width, size.height);
 		
 		size = lampada.getPreferredSize();
-		lampada.setBounds((frameWidth - size.width) + insets.left, (frameHeight / 2 - size.height / 2) + insets.left, size.width, size.height);
-				
+		lampada.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.left, size.width, size.height);
+
+        frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computador do usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
+        frame.setVisible(true);
 		frame.add(panel);
-		
 	}
 	
 
@@ -154,16 +173,6 @@ public class Screen implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-	    if(entradasA.getSelectedIndex() == 0) {
-			lampada = Image.bufferedImageToJLabel(lampadaOn);
-		
-		} else {
-			lampada = Image.bufferedImageToJLabel(lampadaOff);
-		}
 
-	    panel.repaint();
-	    
-		
-		
 	}
 }

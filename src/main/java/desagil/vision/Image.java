@@ -21,7 +21,7 @@ public class Image {
 	public static JLabel bufferedImageToJLabel(BufferedImage image) {
 		JLabel labeledImage = new JLabel(new ImageIcon(image));
 		return labeledImage;
-		}
+	}
 	
 	public static BufferedImage resizeBufferedImage(BufferedImage image, int newWidth, int newHeight) throws IOException {
 		return Thumbnails.of(image).size(newWidth, newHeight).asBufferedImage();
