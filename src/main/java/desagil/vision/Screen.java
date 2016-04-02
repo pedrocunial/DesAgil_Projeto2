@@ -20,8 +20,8 @@ public class Screen extends JPanel implements ActionListener {
 	private JButton buttonSelecionar;
 	private JLabel frameTitle, tituloSwitchA, tituloSwitchB;
 	private JComboBox<Object> comboBox; // Sugestão do Matheus Dias
-	private String[] portas = {"AND", "OR", "NOT", "XOR", "HalfAdder", "FullAdder"};
-	private String[] entradas = {"Ligado", "Desligado"};
+	private static final String[] portas = {"AND", "OR", "NOT", "XOR", "HalfAdder", "FullAdder"};
+	private static final String[] entradas = {"Ligado", "Desligado"};
 	private JComboBox<Object> entradasA;
 	private JComboBox<Object> entradasB;
 	private BufferedImage lampadaOn, lampadaOff, currentImage; // Carregar imagens
@@ -30,6 +30,9 @@ public class Screen extends JPanel implements ActionListener {
 	private JLabel lampada, switchA, switchB; // Usar para inserir no painel
 	int frameWidth, frameHeight;
 	
+	public static String[] getPortas() {
+		return portas;
+	}
 	
 	public Screen() {
 		frameWidth = 600;
