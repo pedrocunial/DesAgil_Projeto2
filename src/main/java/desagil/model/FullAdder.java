@@ -21,16 +21,18 @@ public class FullAdder extends LogicGate{
 	@Override
 	public boolean getOutputValue(int index) {
 		this.index = index;
+		boolean[] resposta = new boolean[2];
 		HalfAdder halfA = new HalfAdder();
 		HalfAdder halfB = new HalfAdder();
 		OrGate or = new OrGate();
-		boolean[] resposta = new boolean[2];
 		
 		halfA.setPinA(pinA);
 		halfA.setPinB(pinB);
 		
 		InputPin sumA = new InputPin();
 		InputPin carryA = new InputPin();
+		sumA.setIndex(0);
+		carryA.setIndex(1);
 		
 		
 		// Posso 'tapar esse buraco' usando as portas Xor, mas isso não resolveria o problema
@@ -38,16 +40,17 @@ public class FullAdder extends LogicGate{
 		sumA.setSource(halfA); // Saida 0
 		halfB.setPinA(sumA);
 		halfB.setPinB(pinC);
-				
+		
 		resposta[0] = halfB.getOutputValue(0);
-			
+		
 		InputPin carryB = new InputPin();
+		carryB.setIndex(1);
 		carryB.setSource(halfB); // Saida 1
 		carryA.setSource(halfA); // Saida 1
 		or.setPinA(carryA);
 		or.setPinB(carryB);
 		resposta[1] = or.getOutputValue(0);
-			
+		
 		return resposta[index];
 	}
 

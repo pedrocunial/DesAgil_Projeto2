@@ -17,8 +17,8 @@ public class HalfAdder extends LogicGate {
 	@Override
 	public boolean getOutputValue(int index) {
 		this.index = index;
-		boolean[] resposta = new boolean[2];		
-		
+		boolean[] resposta = new boolean[2];
+
 		XorGate xor = new XorGate();
 		xor.setPinA(pinA);
 		xor.setPinB(pinB);
@@ -31,6 +31,5 @@ public class HalfAdder extends LogicGate {
 			
 		return resposta[index];
 	}
-
 
 }
