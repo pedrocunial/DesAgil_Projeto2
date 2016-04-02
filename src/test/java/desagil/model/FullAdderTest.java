@@ -84,7 +84,7 @@ public class FullAdderTest {
 		Assert.assertFalse(full.getOutputValue(0));
 		Assert.assertTrue(full.getOutputValue(1));
 		
-	}
+	}	
 	
 	@Test
 	public void comEntradaFalseTrueTrue() {
