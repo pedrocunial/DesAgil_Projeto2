@@ -18,13 +18,5 @@ public class OrGate extends LogicGate {
 	public void setPinB(InputPin pinB) {
 		this.pinB = pinB;
 	}
-
-	public InputPin getPinA() {
-		return pinA;
-	}
-
-	public InputPin getPinB() {
-		return pinB;
-	}
 	
 }

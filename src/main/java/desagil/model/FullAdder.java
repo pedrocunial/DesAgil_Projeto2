@@ -6,21 +6,14 @@ public class FullAdder extends LogicGate{
 	InputPin pinC;
 	int index;
 	
-	public InputPin getPinA() {
-		return pinA;
-	}
 	public void setPinA(InputPin pinA) {
 		this.pinA = pinA;
 	}
-	public InputPin getPinB() {
-		return pinB;
-	}
+
 	public void setPinB(InputPin pinB) {
 		this.pinB = pinB;
 	}
-	public InputPin getPinC() {
-		return pinC;
-	}
+	
 	public void setPinC(InputPin pinC) {
 		this.pinC = pinC;
 	}
@@ -31,7 +24,7 @@ public class FullAdder extends LogicGate{
 		HalfAdder halfA = new HalfAdder();
 		HalfAdder halfB = new HalfAdder();
 		OrGate or = new OrGate();
-		boolean resposta;
+		boolean[] resposta = new boolean[2];
 		
 		halfA.setPinA(pinA);
 		halfA.setPinB(pinB);
@@ -39,23 +32,23 @@ public class FullAdder extends LogicGate{
 		InputPin sumA = new InputPin();
 		InputPin carryA = new InputPin();
 		
-		sumA.setSource(halfA);
+		
+		// Posso 'tapar esse buraco' usando as portas Xor, mas isso não resolveria o problema
+		
+		sumA.setSource(halfA); // Saida 0
 		halfB.setPinA(sumA);
 		halfB.setPinB(pinC);
 				
-		if(index == 0) {
-			resposta = halfB.getOutputValue(0);
+		resposta[0] = halfB.getOutputValue(0);
 			
-		} else {
-			InputPin carryB = new InputPin();
-			carryB.setSource(halfB);
-			carryA.setSource(halfA);
-			or.setPinA(carryA);
-			or.setPinB(carryB);
-			resposta = or.getOutputValue(0);
+		InputPin carryB = new InputPin();
+		carryB.setSource(halfB); // Saida 1
+		carryA.setSource(halfA); // Saida 1
+		or.setPinA(carryA);
+		or.setPinB(carryB);
+		resposta[1] = or.getOutputValue(0);
 			
-		}
-		return resposta;
+		return resposta[index];
 	}
 
 }
