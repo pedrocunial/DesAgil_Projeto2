@@ -1,13 +1,11 @@
 package desagil.vision;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class Screen implements ActionListener {
@@ -70,31 +68,33 @@ public class Screen implements ActionListener {
 			    System.out.println(entradas[j]);
 			    System.out.println(entradas[k]);
 			    
-			    if(entradasA.getSelectedIndex() == 0) {
-					lampada = new JLabel(new ImageIcon(lampadaOn));
-				
-				} else {
-					lampada = new JLabel(new ImageIcon(lampadaOff));
-				}
-				
-			
 			}
 		});
+
+		try {
+			lampadaOn = Image.makeImage("src/img/lampadaOn.jpg");
+			lampadaOff = Image.makeImage("src/img/lampadaOff.jpg");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			lampadaOn = Image.resizeBufferedImage(lampadaOn, 50, 50);
+			lampadaOff = Image.resizeBufferedImage(lampadaOff, 50, 50);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		lampada = Image.bufferedImageToJLabel(lampadaOn);	
 		
 		frameTitle = new JLabel("Escolha uma Porta");
 		frameTitle.setFont(new Font("", Font.PLAIN, 24));
 		tituloSwitchA = new JLabel("Seletor A");
 		tituloSwitchB = new JLabel("Seletor B");
 		
-		try {                
-			lampadaOn = ImageIO.read(new File("src/img/lampadaOn.jpg"));
-			lampadaOff = ImageIO.read(new File("src/img/lampadaOff.jpg"));
-			
-		} catch (IOException ex) {
-			System.out.println("Não consegui carrregar as imagens das lampadas");
-		}
 		
-		lampada = new JLabel(new ImageIcon(lampadaOff));
 				
 		// Adiciona o que criamos no painel
 		panel.add(buttonSelecionar);
@@ -154,6 +154,16 @@ public class Screen implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+	    if(entradasA.getSelectedIndex() == 0) {
+			lampada = Image.bufferedImageToJLabel(lampadaOn);
+		
+		} else {
+			lampada = Image.bufferedImageToJLabel(lampadaOff);
+		}
+
+	    panel.repaint();
+	    
+		
 		
 	}
 }
