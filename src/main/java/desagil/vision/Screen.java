@@ -98,10 +98,7 @@ public class Screen extends JPanel implements ActionListener {
 			    int i = comboBox.getSelectedIndex();
 			    int j = entradasA.getSelectedIndex();
 			    int k = entradasB.getSelectedIndex();
-			    System.out.println(portas[i]);
-			    System.out.println(entradas[j]);
-			    System.out.println(entradas[k]);
-			    
+			   			    
 			    if(entradasA.getSelectedIndex() == 0) {
 					currentImage = lampadaOn;
 					currentSwitchStateA = switchOnA;
