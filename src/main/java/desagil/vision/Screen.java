@@ -93,12 +93,7 @@ public class Screen extends JPanel implements ActionListener {
 		buttonSelecionar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-			    // Confere o valor da comboBox selecionado no momento
-				// Será usado para saber qual porta deverá ser desenhada
-			    int i = comboBox.getSelectedIndex();
-			    int j = entradasA.getSelectedIndex();
-			    int k = entradasB.getSelectedIndex();
-			   			    
+    
 			    if(entradasA.getSelectedIndex() == 0) {
 					currentImage = lampadaOn;
 					currentSwitchStateA = switchOnA;
@@ -161,29 +156,29 @@ public class Screen extends JPanel implements ActionListener {
 		buttonSelecionar.setBounds(20 + insets.left, (frameHeight - size.height * 3) + insets.top, size.width, size.height);
 		
 		size = comboBox.getPreferredSize();
-		comboBox.setBounds(25 + insets.left, 50 + insets.top, size.width, size.height);
+		comboBox.setBounds((frameWidth / 2 - size.width / 2) + insets.left, 50 + insets.top, size.width, size.height);
 		
 		size = frameTitle.getPreferredSize();
 		frameTitle.setBounds((300 - size.width / 2) + insets.left, insets.top, size.width, size.height);
 		
 		size = entradasA.getPreferredSize();
-		entradasA.setBounds(25 + insets.left, 250 + insets.top, size.width, size.height);
+		entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
 		size = entradasB.getPreferredSize();
-		entradasB.setBounds(25 + insets.left, 350 + insets.top, size.width, size.height);
+		entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
 		
 		size = tituloSwitchA.getPreferredSize();
-		tituloSwitchA.setBounds(25 + insets.left, 230 + insets.top, size.width, size.height);
+		tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
 		size = tituloSwitchB.getPreferredSize();
-		tituloSwitchB.setBounds(25 + insets.left, 330 + insets.top, size.width, size.height);
+		tituloSwitchB.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
 		
 		size = lampada.getPreferredSize();
 		lampada.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 		
 		size = switchA.getPreferredSize();
-		switchA.setBounds(150 + insets.left, 230 + insets.top, size.width, size.height);
+		switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
 		
 		size = switchB.getPreferredSize();
-		switchB.setBounds(150 + insets.left, 330 + insets.top, size.width, size.height);
+		switchB.setBounds(150 + insets.left, 210 + insets.top, size.width, size.height);
 		
         frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computador do usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
         frame.setVisible(true);
