@@ -2,6 +2,17 @@ package desagil.vision;
 
 import javax.swing.*;
 
+import desagil.model.AndGate;
+import desagil.model.FullAdder;
+import desagil.model.HalfAdder;
+import desagil.model.InputPin;
+import desagil.model.LogicGate;
+import desagil.model.NotGate;
+import desagil.model.OrGate;
+import desagil.model.Switch;
+import desagil.model.XorGate;
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +40,12 @@ public class Screen extends JPanel implements ActionListener {
 	private BufferedImage switchOnB, switchOffB, currentSwitchStateB;
 	private JLabel lampada, switchA, switchB; // Usar para inserir no painel
 	int frameWidth, frameHeight;
+	private LogicGate[] objetoDasPortas = new LogicGate[6];
+	private boolean switchValueA, switchValueB;
+	private LogicGate currentGate;
+	private InputPin pinA, pinB;
+	private Switch inA, inB;
+	
 	
 	public static String[] getPortas() {
 		return portas;
@@ -37,6 +54,13 @@ public class Screen extends JPanel implements ActionListener {
 	public Screen() {
 		frameWidth = 600;
 		frameHeight = 500;
+		
+		objetoDasPortas[0] = new AndGate();
+		objetoDasPortas[1] = new OrGate();
+		objetoDasPortas[2] = new NotGate();
+		objetoDasPortas[3] = new XorGate();
+		objetoDasPortas[4] = new HalfAdder();
+		objetoDasPortas[5] = new FullAdder();
 				
 		comboBox = new JComboBox<Object>(portas);
 		comboBox.setSelectedIndex(0);
@@ -83,36 +107,69 @@ public class Screen extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		
+		switchValueA = false;
+		switchValueB = false;
+		currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+		
+		inA = new Switch();
+		inB = new Switch();
 		
 		// Imagens iniciais
 		lampada = Image.bufferedImageToJLabel(lampadaOff);
 		switchA = Image.bufferedImageToJLabel(switchOffA);
 		switchB = Image.bufferedImageToJLabel(switchOffB);
 		
+		pinA = new InputPin();
+		pinB = new InputPin();
+		
 		buttonSelecionar = new JButton("Selecionar");
 		buttonSelecionar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-    
 			    if(entradasA.getSelectedIndex() == 0) {
-					currentImage = lampadaOn;
+					switchValueA = true;
 					currentSwitchStateA = switchOnA;
 					
 				} else {
-					currentImage = lampadaOff;
 					currentSwitchStateA = switchOffA;
+					switchValueA = false;
 
 				}
 			    
 			    if(entradasB.getSelectedIndex() == 0) {
 					currentSwitchStateB = switchOnB;
+					switchValueB = true; 
 					
 				} else {
 					currentSwitchStateB = switchOffB;
-
+					switchValueB = false;
+					
 				}
 			    
-				lampada.setIcon(new ImageIcon(currentImage));
+			    inA.setOutputValue(switchValueA);
+				pinA.setSource(inA);
+				
+				inB.setOutputValue(switchValueB);
+				pinB.setSource(inB);
+				
+				
+				currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+			    currentGate.setPinA(pinA);
+			    currentGate.setPinB(pinB);
+			    
+//			    pinSaida.setSource(currentGate);
+//			    
+//			    lamp.setInputPin(pinSaida);
+			    
+			    if(currentGate.getOutputValue(0)) {
+			    	currentImage = lampadaOn;
+			    
+			    } else {
+			    	currentImage = lampadaOff;
+			    
+			    }
+			    
+			    lampada.setIcon(new ImageIcon(currentImage));
 				switchA.setIcon(new ImageIcon(currentSwitchStateA));
 				switchB.setIcon(new ImageIcon(currentSwitchStateB));
 				panel.repaint();
