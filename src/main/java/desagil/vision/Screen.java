@@ -28,28 +28,27 @@ public class Screen extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JPanel panel;
-	private JButton buttonSelecionar;
-	private JLabel frameTitle, tituloSwitchA, tituloSwitchB;
+	private JButton buttonSelecionar, buttonConfirmarPorta;
+	private JLabel frameTitle, tituloSwitchA, tituloSwitchB, tituloSwitchC;
 	private JComboBox<Object> comboBox; // Sugestão do Matheus Dias
 	private static final String[] portas = {"AND", "OR", "NOT", "XOR", "HalfAdder", "FullAdder"};
 	private static final String[] entradas = {"Ligado", "Desligado"};
 	private JComboBox<Object> entradasA;
 	private JComboBox<Object> entradasB;
+	private JComboBox<Object> entradasC;
 	private BufferedImage lampadaOn, lampadaOff, currentImage; // Carregar imagens
 	private BufferedImage switchOnA, switchOffA, currentSwitchStateA;
 	private BufferedImage switchOnB, switchOffB, currentSwitchStateB;
-	private JLabel lampada, switchA, switchB; // Usar para inserir no painel
+	private BufferedImage switchOnC, switchOffC, currentSwitchStateC;
+	private JLabel lampadaA, lampadaB, switchA, switchB, switchC; // Usar para inserir no painel
 	int frameWidth, frameHeight;
 	private LogicGate[] objetoDasPortas = new LogicGate[6];
-	private boolean switchValueA, switchValueB;
+	private boolean switchValueA, switchValueB, switchValueC;
 	private LogicGate currentGate;
-	private InputPin pinA, pinB;
-	private Switch inA, inB;
+	private InputPin pinA, pinB, pinC;
+	private Switch inA, inB, inC;
+	private int doorStyle;
 	
-	
-	public static String[] getPortas() {
-		return portas;
-	}
 	
 	public Screen() {
 		frameWidth = 600;
@@ -86,9 +85,10 @@ public class Screen extends JPanel implements ActionListener {
 			lampadaOff = Image.makeImage("src/img/lampadaOff.jpg");
 			switchOnA = Image.makeImage("src/img/switchOn.png");
 			switchOnB = Image.makeImage("src/img/switchOn.png");
+			switchOnC = Image.makeImage("src/img/switchOn.png");
 			switchOffA = Image.makeImage("src/img/switchOff.png");
 			switchOffB = Image.makeImage("src/img/switchOff.png");
-			
+			switchOffC = Image.makeImage("src/img/switchOff.png");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,8 +100,10 @@ public class Screen extends JPanel implements ActionListener {
 			lampadaOff = Image.resizeBufferedImage(lampadaOff, 50, 50);
 			switchOnA = Image.resizeBufferedImage(switchOnA, 50, 50);
 			switchOnB = Image.resizeBufferedImage(switchOnB, 50, 50);
+			switchOnC = Image.resizeBufferedImage(switchOnC, 50, 50);
 			switchOffA = Image.resizeBufferedImage(switchOffA, 50, 50);
 			switchOffB = Image.resizeBufferedImage(switchOffB, 50, 50);
+			switchOffC = Image.resizeBufferedImage(switchOffC, 50, 50);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,18 +111,52 @@ public class Screen extends JPanel implements ActionListener {
 		
 		switchValueA = false;
 		switchValueB = false;
+		switchValueC = false;
 		currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+		doorStyle = 0;
 		
 		inA = new Switch();
 		inB = new Switch();
+		inC = new Switch();
 		
 		// Imagens iniciais
-		lampada = Image.bufferedImageToJLabel(lampadaOff);
+		lampadaB = Image.bufferedImageToJLabel(lampadaOff);
+		lampadaA = Image.bufferedImageToJLabel(lampadaOff);
 		switchA = Image.bufferedImageToJLabel(switchOffA);
 		switchB = Image.bufferedImageToJLabel(switchOffB);
+		switchC = Image.bufferedImageToJLabel(switchOffC);
 		
 		pinA = new InputPin();
 		pinB = new InputPin();
+		
+		buttonConfirmarPorta = new JButton("Confirmar");
+		buttonConfirmarPorta.addActionListener(new ActionListener() {
+			// Descobre o tipo de porta que é para definir o número de 
+			// entradas e saídas			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox.getSelectedIndex() == 2) {
+					// Not
+					doorStyle = 1;
+				
+				} else if(comboBox.getSelectedIndex() == 4) {
+					// HalfAdder
+					doorStyle = 2;
+					
+				} else if(comboBox.getSelectedIndex() == 5) {
+					// FullAdder
+					doorStyle = 3;
+				
+				} else {
+					// Portas Básicas e Xor
+					doorStyle = 0;
+				
+				}
+				frame.remove(panel);
+				
+			}
+		});
+		
 		
 		buttonSelecionar = new JButton("Selecionar");
 		buttonSelecionar.addActionListener(new ActionListener() {
@@ -152,15 +188,10 @@ public class Screen extends JPanel implements ActionListener {
 				inB.setOutputValue(switchValueB);
 				pinB.setSource(inB);
 				
-				
 				currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
 			    currentGate.setPinA(pinA);
 			    currentGate.setPinB(pinB);
-			    
-//			    pinSaida.setSource(currentGate);
-//			    
-//			    lamp.setInputPin(pinSaida);
-			    
+
 			    if(currentGate.getOutputValue(0)) {
 			    	currentImage = lampadaOn;
 			    
@@ -169,7 +200,7 @@ public class Screen extends JPanel implements ActionListener {
 			    
 			    }
 			    
-			    lampada.setIcon(new ImageIcon(currentImage));
+			    lampadaA.setIcon(new ImageIcon(currentImage));
 				switchA.setIcon(new ImageIcon(currentSwitchStateA));
 				switchB.setIcon(new ImageIcon(currentSwitchStateB));
 				panel.repaint();
@@ -180,25 +211,20 @@ public class Screen extends JPanel implements ActionListener {
 		});
 
 
-		panel.add(lampada);
+		
 		
 		frameTitle = new JLabel("Escolha uma Porta");
 		frameTitle.setFont(new Font("", Font.PLAIN, 24));
 		tituloSwitchA = new JLabel("Seletor A");
 		tituloSwitchB = new JLabel("Seletor B");
+		tituloSwitchC = new JLabel("Seletor C");
 		
 				
 		// Adiciona o que criamos no painel
+		panel.add(buttonConfirmarPorta);
 		panel.add(buttonSelecionar);
 		panel.add(frameTitle);
 		panel.add(comboBox);
-		panel.add(entradasA);
-		panel.add(entradasB);
-		panel.add(tituloSwitchA);
-		panel.add(tituloSwitchB);
-		panel.add(switchA);
-		panel.add(switchB);
-
 		
 		frame = new JFrame("Simulador de Portas Lógicas");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -209,35 +235,96 @@ public class Screen extends JPanel implements ActionListener {
 		
 		// Define a posição do que criamos no painel (poderiamos usar para alterar o tamanho, mas isso "distorceria
 		// os icones e textos
-		Dimension size = buttonSelecionar.getPreferredSize();
-		buttonSelecionar.setBounds(20 + insets.left, (frameHeight - size.height * 3) + insets.top, size.width, size.height);
+		Dimension size = comboBox.getPreferredSize();
+		comboBox.setBounds((frameWidth / 2 - size.width - 8) + insets.left, 50 + insets.top, size.width, size.height);
 		
-		size = comboBox.getPreferredSize();
-		comboBox.setBounds((frameWidth / 2 - size.width / 2) + insets.left, 50 + insets.top, size.width, size.height);
+		size = buttonConfirmarPorta.getPreferredSize();
+		buttonConfirmarPorta.setBounds((frameWidth / 2 + 5) + insets.left, 49 + insets.top, size.width, size.height);
 		
 		size = frameTitle.getPreferredSize();
 		frameTitle.setBounds((300 - size.width / 2) + insets.left, insets.top, size.width, size.height);
 		
-		size = entradasA.getPreferredSize();
-		entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
-		size = entradasB.getPreferredSize();
-		entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+		size = buttonSelecionar.getPreferredSize();
+		buttonSelecionar.setBounds(20 + insets.left, (frameHeight - size.height * 3) + insets.top, size.width, size.height);
 		
-		size = tituloSwitchA.getPreferredSize();
-		tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
-		size = tituloSwitchB.getPreferredSize();
-		tituloSwitchB.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
+		if(doorStyle == 0) {
+			// Portas básicas e Xor
+			panel.add(entradasA);
+			panel.add(entradasB);
+			panel.add(tituloSwitchA);
+			panel.add(tituloSwitchB);
+			panel.add(switchA);
+			panel.add(switchB);
+			panel.add(lampadaA);
+			
+			size = entradasA.getPreferredSize();
+			entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+			size = entradasB.getPreferredSize();
+			entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+			
+			size = tituloSwitchA.getPreferredSize();
+			tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
+			size = tituloSwitchB.getPreferredSize();
+			tituloSwitchB.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
+			
+			size = lampadaA.getPreferredSize();
+			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			
+			size = switchA.getPreferredSize();
+			switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
+			size = switchB.getPreferredSize();
+			switchB.setBounds(150 + insets.left, 210 + insets.top, size.width, size.height);
 		
-		size = lampada.getPreferredSize();
-		lampada.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+		} else if(doorStyle == 1) {
+			// Not
+			panel.add(entradasA);
+			panel.add(tituloSwitchA);
+			panel.add(switchA);
+			panel.add(lampadaA);
+				
+			size = entradasA.getPreferredSize();
+			entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+			
+			size = tituloSwitchA.getPreferredSize();
+			tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
+			
+			size = lampadaA.getPreferredSize();
+			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			
+			size = switchA.getPreferredSize();
+			switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
+			
+		} else if(doorStyle == 2) {
+			// HalfAdder
+			panel.add(entradasA);
+			panel.add(entradasB);
+			panel.add(tituloSwitchA);
+			panel.add(tituloSwitchB);
+			panel.add(switchA);
+			panel.add(switchB);
+			panel.add(lampadaA);
+			panel.add(lampadaB);
+			
+		} else if(doorStyle == 3) {
+			// FullAdder
+			panel.add(entradasA);
+			panel.add(entradasB);
+			panel.add(entradasC);
+			panel.add(tituloSwitchA);
+			panel.add(tituloSwitchB);
+			panel.add(tituloSwitchC);
+			panel.add(switchA);
+			panel.add(switchB);
+			panel.add(switchC);
+			panel.add(lampadaA);
+			panel.add(lampadaB);
 		
-		size = switchA.getPreferredSize();
-		switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
+		}
 		
-		size = switchB.getPreferredSize();
-		switchB.setBounds(150 + insets.left, 210 + insets.top, size.width, size.height);
+			
+			
 		
-        frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computador do usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
+        frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computadodo usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
         frame.setVisible(true);
 		frame.add(panel);
 	}
