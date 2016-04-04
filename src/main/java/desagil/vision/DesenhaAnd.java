@@ -3,7 +3,10 @@ package desagil.vision;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class DesenhaAnd extends DesenhaPortas{
+
+public class DesenhaAnd extends DesenhaPortas {
+	private static final long serialVersionUID = 1L;
+
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 	
