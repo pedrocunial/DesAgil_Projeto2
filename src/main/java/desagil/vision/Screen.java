@@ -36,7 +36,7 @@ public class Screen extends JPanel implements ActionListener {
 	private JComboBox<Object> entradasA;
 	private JComboBox<Object> entradasB;
 	private JComboBox<Object> entradasC;
-	private BufferedImage lampadaOn, lampadaOff, currentImage; // Carregar imagens
+	private BufferedImage lampadaOn, lampadaOff, currentImage, currentImageB; // Carregar imagens
 	private BufferedImage switchOnA, switchOffA, currentSwitchStateA;
 	private BufferedImage switchOnB, switchOffB, currentSwitchStateB;
 	private BufferedImage switchOnC, switchOffC, currentSwitchStateC;
@@ -72,6 +72,10 @@ public class Screen extends JPanel implements ActionListener {
 		entradasB = new JComboBox<Object>(entradas);
 		entradasB.setSelectedIndex(1);
 		entradasB.addActionListener(this);
+		
+		entradasC = new JComboBox<Object>(entradas);
+		entradasC.setSelectedIndex(1);
+		entradasC.addActionListener(this);
 						
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -128,6 +132,8 @@ public class Screen extends JPanel implements ActionListener {
 		
 		pinA = new InputPin();
 		pinB = new InputPin();
+		pinC = new InputPin();
+		doorStyle = 0;
 		
 		buttonConfirmarPorta = new JButton("Confirmar");
 		buttonConfirmarPorta.addActionListener(new ActionListener() {
@@ -162,51 +168,8 @@ public class Screen extends JPanel implements ActionListener {
 		buttonSelecionar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-			    if(entradasA.getSelectedIndex() == 0) {
-					switchValueA = true;
-					currentSwitchStateA = switchOnA;
-					
-				} else {
-					currentSwitchStateA = switchOffA;
-					switchValueA = false;
-
-				}
-			    
-			    if(entradasB.getSelectedIndex() == 0) {
-					currentSwitchStateB = switchOnB;
-					switchValueB = true; 
-					
-				} else {
-					currentSwitchStateB = switchOffB;
-					switchValueB = false;
-					
-				}
-			    
-			    inA.setOutputValue(switchValueA);
-				pinA.setSource(inA);
-				
-				inB.setOutputValue(switchValueB);
-				pinB.setSource(inB);
-				
-				currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
-			    currentGate.setPinA(pinA);
-			    currentGate.setPinB(pinB);
-
-			    if(currentGate.getOutputValue(0)) {
-			    	currentImage = lampadaOn;
-			    
-			    } else {
-			    	currentImage = lampadaOff;
-			    
-			    }
-			    
-			    lampadaA.setIcon(new ImageIcon(currentImage));
-				switchA.setIcon(new ImageIcon(currentSwitchStateA));
-				switchB.setIcon(new ImageIcon(currentSwitchStateB));
-				panel.repaint();
-
-		    	panel.getToolkit().sync();
-			    
+				// Confere o tipo de porta para saber quantas entradas serão usadas
+				defineLogica();
 			}
 		});
 
@@ -257,22 +220,22 @@ public class Screen extends JPanel implements ActionListener {
 		panel.add(lampadaA);
 		
 		size = entradasA.getPreferredSize();
-		entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+		entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
 		size = entradasB.getPreferredSize();
-		entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+		entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 		
 		size = tituloSwitchA.getPreferredSize();
-		tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
+		tituloSwitchA.setBounds(25 + insets.left, 160 + insets.top, size.width, size.height);
 		size = tituloSwitchB.getPreferredSize();
-		tituloSwitchB.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
+		tituloSwitchB.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 		
 		size = lampadaA.getPreferredSize();
 		lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 		
 		size = switchA.getPreferredSize();
-		switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
+		switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
 		size = switchB.getPreferredSize();
-		switchB.setBounds(150 + insets.left, 210 + insets.top, size.width, size.height);
+		switchB.setBounds(150 + insets.left, 290 + insets.top, size.width, size.height);
 	
         frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computadodo usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
         frame.setVisible(true);
@@ -319,22 +282,22 @@ public class Screen extends JPanel implements ActionListener {
 			panel.add(lampadaA);
 			
 			size = entradasA.getPreferredSize();
-			entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+			entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
 			size = entradasB.getPreferredSize();
-			entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+			entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 			
 			size = tituloSwitchA.getPreferredSize();
-			tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
+			tituloSwitchA.setBounds(25 + insets.left, 160 + insets.top, size.width, size.height);
 			size = tituloSwitchB.getPreferredSize();
-			tituloSwitchB.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
+			tituloSwitchB.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 			
 			size = lampadaA.getPreferredSize();
 			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
-			switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
+			switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
 			size = switchB.getPreferredSize();
-			switchB.setBounds(150 + insets.left, 210 + insets.top, size.width, size.height);
+			switchB.setBounds(150 + insets.left, 290 + insets.top, size.width, size.height);
 			
 		} else if(this.doorStyle == 1) {
 			// Not
@@ -356,8 +319,6 @@ public class Screen extends JPanel implements ActionListener {
 			switchA.setBounds(150 + insets.left, 190 + insets.top, size.width, size.height);
 			
 		} else if(this.doorStyle == 2) {
-			panel = new JPanel();
-			panel.removeAll();
 			// HalfAdder
 			panel.add(entradasA);
 			panel.add(entradasB);
@@ -369,24 +330,24 @@ public class Screen extends JPanel implements ActionListener {
 			panel.add(lampadaB);
 			
 			size = entradasA.getPreferredSize();
-			entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+			entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
 			size = entradasB.getPreferredSize();
-			entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+			entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 			
 			size = tituloSwitchA.getPreferredSize();
-			tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
+			tituloSwitchA.setBounds(25 + insets.left, 160 + insets.top, size.width, size.height);
 			size = tituloSwitchB.getPreferredSize();
-			tituloSwitchB.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
+			tituloSwitchB.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 			
 			size = lampadaA.getPreferredSize();
 			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 			size = lampadaB.getPreferredSize();
-			lampadaB.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 4) + insets.top, size.width, size.height);
+			lampadaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
-			switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
+			switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
 			size = switchB.getPreferredSize();
-			switchB.setBounds(150 + insets.left, 210 + insets.top, size.width, size.height);
+			switchB.setBounds(150 + insets.left, 290 + insets.top, size.width, size.height);
 			
 		} else if(doorStyle == 3) {
 			// FullAdder
@@ -419,7 +380,7 @@ public class Screen extends JPanel implements ActionListener {
 			size = lampadaA.getPreferredSize();
 			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 			size = lampadaB.getPreferredSize();
-			lampadaB.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 4) + insets.top, size.width, size.height);
+			lampadaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
 			switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
@@ -433,6 +394,212 @@ public class Screen extends JPanel implements ActionListener {
 		panel.updateUI();
 	}
 
+	
+	private void defineLogica() {
+		if(this.doorStyle == 3) {
+			// FullAdder
+			if(entradasA.getSelectedIndex() == 0) {
+				switchValueA = true;
+				currentSwitchStateA = switchOnA;
+				
+				
+			} else {
+				currentSwitchStateA = switchOffA;
+				switchValueA = false;
+	
+			}
+		    
+		    if(entradasB.getSelectedIndex() == 0) {
+				currentSwitchStateB = switchOnB;
+				switchValueB = true; 
+				
+			} else {
+				currentSwitchStateB = switchOffB;
+				switchValueB = false;
+				
+			}
+		    
+		    if(entradasC.getSelectedIndex() == 0) {
+		    	currentSwitchStateC = switchOnC;
+		    	switchValueC = true;
+		    
+		    } else {
+		    	currentSwitchStateC = switchOffC;
+		    	switchValueC = false;
+		    	
+		    }
+		    
+		    inA.setOutputValue(switchValueA);
+			pinA.setSource(inA);
+			
+			inB.setOutputValue(switchValueB);
+			pinB.setSource(inB);
+			
+			inC.setOutputValue(switchValueC);
+			pinC.setSource(inC);
+			
+			currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+		    currentGate.setPinA(pinA);
+		    currentGate.setPinB(pinB);
+		    currentGate.setPinC(pinC);
+	
+		    if(currentGate.getOutputValue(0)) {
+		    	currentImage = lampadaOn;
+		    
+		    } else {
+		    	currentImage = lampadaOff;
+		    
+		    }
+		    
+		    if(currentGate.getOutputValue(1)) {
+		    	currentImageB = lampadaOn;
+		    	
+		    } else {
+		    	currentImageB = lampadaOff;
+		    	
+		    }
+		    
+		    lampadaA.setIcon(new ImageIcon(currentImage));
+		    lampadaB.setIcon(new ImageIcon(currentImageB));
+			switchA.setIcon(new ImageIcon(currentSwitchStateA));
+			switchB.setIcon(new ImageIcon(currentSwitchStateB));
+			switchC.setIcon(new ImageIcon(currentSwitchStateC));
+			
+		} else if(this.doorStyle == 2) {
+			// HalfAdder
+			if(entradasA.getSelectedIndex() == 0) {
+				switchValueA = true;
+				currentSwitchStateA = switchOnA;
+				
+				
+			} else {
+				currentSwitchStateA = switchOffA;
+				switchValueA = false;
+	
+			}
+		    
+		    if(entradasB.getSelectedIndex() == 0) {
+				currentSwitchStateB = switchOnB;
+				switchValueB = true; 
+				
+			} else {
+				currentSwitchStateB = switchOffB;
+				switchValueB = false;
+				
+			}
+		    
+		    inA.setOutputValue(switchValueA);
+			pinA.setSource(inA);
+			
+			inB.setOutputValue(switchValueB);
+			pinB.setSource(inB);
+			
+			currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+		    currentGate.setPinA(pinA);
+		    currentGate.setPinB(pinB);
+	
+		    if(currentGate.getOutputValue(0)) {
+		    	currentImage = lampadaOn;
+		    
+		    } else {
+		    	currentImage = lampadaOff;
+		    
+		    }
+		    
+		    if(currentGate.getOutputValue(1)) {
+		    	currentImageB = lampadaOn;
+		    	
+		    } else {
+		    	currentImageB = lampadaOff;
+		    	
+		    }
+		    
+		    lampadaA.setIcon(new ImageIcon(currentImage));
+		    lampadaB.setIcon(new ImageIcon(currentImageB));
+			switchA.setIcon(new ImageIcon(currentSwitchStateA));
+			switchB.setIcon(new ImageIcon(currentSwitchStateB));
+			
+		} else if(this.doorStyle == 0) {
+			// AND, OR e XOR
+			if(entradasA.getSelectedIndex() == 0) {
+				switchValueA = true;
+				currentSwitchStateA = switchOnA;
+				
+				
+			} else {
+				currentSwitchStateA = switchOffA;
+				switchValueA = false;
+	
+			}
+		    
+		    if(entradasB.getSelectedIndex() == 0) {
+				currentSwitchStateB = switchOnB;
+				switchValueB = true; 
+				
+			} else {
+				currentSwitchStateB = switchOffB;
+				switchValueB = false;
+				
+			}
+		    
+		    inA.setOutputValue(switchValueA);
+			pinA.setSource(inA);
+			
+			inB.setOutputValue(switchValueB);
+			pinB.setSource(inB);
+
+			currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+		    currentGate.setPinA(pinA);
+		    currentGate.setPinB(pinB);
+	
+		    if(currentGate.getOutputValue(0)) {
+		    	currentImage = lampadaOn;
+		    
+		    } else {
+		    	currentImage = lampadaOff;
+		    
+		    }
+		    
+		    lampadaA.setIcon(new ImageIcon(currentImage));
+			switchA.setIcon(new ImageIcon(currentSwitchStateA));
+			switchB.setIcon(new ImageIcon(currentSwitchStateB));
+			
+		} else if(this.doorStyle == 1) {
+			// NOT
+			if(entradasA.getSelectedIndex() == 0) {
+				switchValueA = true;
+				currentSwitchStateA = switchOnA;
+				
+			} else {
+				currentSwitchStateA = switchOffA;
+				switchValueA = false;
+
+			}	
+		    inA.setOutputValue(switchValueA);
+			pinA.setSource(inA);
+
+			currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
+		    currentGate.setPinA(pinA);
+
+	
+		    if(currentGate.getOutputValue(0)) {
+		    	currentImage = lampadaOn;
+		    
+		    } else {
+		    	currentImage = lampadaOff;
+		    
+		    }
+		    lampadaA.setIcon(new ImageIcon(currentImage));
+			switchA.setIcon(new ImageIcon(currentSwitchStateA));
+		
+		}
+		
+		panel.repaint();
+
+    	panel.getToolkit().sync();
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
