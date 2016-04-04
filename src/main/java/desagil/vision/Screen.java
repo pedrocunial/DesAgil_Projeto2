@@ -48,14 +48,12 @@ public class Screen extends JPanel implements ActionListener {
 	private InputPin pinA, pinB, pinC;
 	private Switch inA, inB, inC;
 	private int doorStyle;
-	private DesenhaPortas[] desenhoDasPortas = new DesenhaPortas[6];
-	private DesenhaPortas desenhoDaPortaAtual;
-	private Graphics g;
 	
 	
 	public Screen() {
 		frameWidth = 600;
 		frameHeight = 500;
+		
 		
 		objetoDasPortas[0] = new AndGate();
 		objetoDasPortas[1] = new OrGate();
@@ -64,10 +62,6 @@ public class Screen extends JPanel implements ActionListener {
 		objetoDasPortas[4] = new HalfAdder();
 		objetoDasPortas[5] = new FullAdder();
 				
-		desenhoDasPortas[0] = new DesenhaAnd();
-		desenhoDasPortas[1] = new DesenhaOr();
-		desenhoDasPortas[2] = new DesenhaNot();
-		
 		comboBox = new JComboBox<Object>(portas);
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(this);
@@ -124,7 +118,6 @@ public class Screen extends JPanel implements ActionListener {
 		switchValueB = false;
 		switchValueC = false;
 		currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
-		desenhoDaPortaAtual = desenhoDasPortas[comboBox.getSelectedIndex()];
 		doorStyle = 0;
 		
 		inA = new Switch();
@@ -226,7 +219,6 @@ public class Screen extends JPanel implements ActionListener {
 		panel.add(switchA);
 		panel.add(switchB);
 		panel.add(lampadaA);
-//		panel.add(desenhoDaPortaAtual.paintComponent(g));
 		
 		
 		size = entradasA.getPreferredSize();
@@ -246,9 +238,6 @@ public class Screen extends JPanel implements ActionListener {
 		switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
 		size = switchB.getPreferredSize();	
 		switchB.setBounds(150 + insets.left, 290 + insets.top, size.width, size.height);
-		
-		size = desenhoDaPortaAtual.getPreferredSize();
-		desenhoDaPortaAtual.setBounds(insets.left, insets.top, size.width, size.height);
 		
         frame.setLocationRelativeTo(null); // Agora a janela abre sempre no meio da tela do computadodo usuário, acredito que este tipo de feature fará com que o usuário respeite mais o meu poder de manipular o que aparece ou deixa de aparecer na máquina dele obrigado
         frame.setVisible(true);
@@ -456,6 +445,8 @@ public class Screen extends JPanel implements ActionListener {
 		    currentGate.setPinB(pinB);
 		    currentGate.setPinC(pinC);
 	
+		    
+		    
 		    if(currentGate.getOutputValue(0)) {
 		    	currentImage = lampadaOn;
 		    

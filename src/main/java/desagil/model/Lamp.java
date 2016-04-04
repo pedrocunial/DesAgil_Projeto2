@@ -11,8 +11,8 @@ public class Lamp implements Drain {
 		this.input = input;
 	}
 
-	public boolean getLampValue() {
-		return input.getSource().getOutputValue(0);
+	public boolean isOn(int index) {
+		return input.getSource().getOutputValue(index);
 	}
 	
 }
