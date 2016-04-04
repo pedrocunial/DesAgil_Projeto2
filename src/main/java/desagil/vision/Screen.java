@@ -6,6 +6,7 @@ import desagil.model.AndGate;
 import desagil.model.FullAdder;
 import desagil.model.HalfAdder;
 import desagil.model.InputPin;
+import desagil.model.Lamp;
 import desagil.model.LogicGate;
 import desagil.model.NotGate;
 import desagil.model.OrGate;
@@ -32,15 +33,16 @@ public class Screen extends JPanel implements ActionListener {
 	private JLabel frameTitle, tituloSwitchA, tituloSwitchB, tituloSwitchC;
 	private JComboBox<Object> comboBox; // Sugestão do Matheus Dias
 	private static final String[] portas = {"AND", "OR", "NOT", "XOR", "HalfAdder", "FullAdder"};
-	private static final String[] entradas = {"Ligado", "Desligado"};
-	private JComboBox<Object> entradasA;
-	private JComboBox<Object> entradasB;
-	private JComboBox<Object> entradasC;
-	private BufferedImage lampadaOn, lampadaOff, currentImage, currentImageB; // Carregar imagens
+//	private static final String[] entradas = {"Ligado", "Desligado"};
+//	private JComboBox<Object> entradasA;
+//	private JComboBox<Object> entradasB;
+//	private JComboBox<Object> entradasC;
+//	private BufferedImage lampadaOn, lampadaOff, currentImage, currentImageB; // Carregar imagens
 	private BufferedImage switchOnA, switchOffA, currentSwitchStateA;
 	private BufferedImage switchOnB, switchOffB, currentSwitchStateB;
 	private BufferedImage switchOnC, switchOffC, currentSwitchStateC;
-	private JLabel lampadaA, lampadaB, switchA, switchB, switchC; // Usar para inserir no painel
+//	private JLabel lampadaA, lampadaB;
+	private JLabel switchA, switchB, switchC; // Usar para inserir no painel
 	private int frameWidth, frameHeight;
 	private LogicGate[] objetoDasPortas = new LogicGate[6];
 	private boolean switchValueA, switchValueB, switchValueC;
@@ -48,12 +50,32 @@ public class Screen extends JPanel implements ActionListener {
 	private InputPin pinA, pinB, pinC;
 	private Switch inA, inB, inC;
 	private int doorStyle;
+	private JCheckBox checkBoxA, checkBoxB, checkBoxC;
+	private JCheckBox saidaA, saidaB;
+	private InputPin pinLampA, pinLampB;
+	private Lamp lampA, lampB;
+	
 	
 	
 	public Screen() {
 		frameWidth = 600;
 		frameHeight = 500;
 		
+		lampA = new Lamp();
+		lampB = new Lamp();
+		
+		pinLampA = new InputPin();
+		pinLampB = new InputPin();
+		
+		checkBoxA = new JCheckBox();
+		checkBoxB = new JCheckBox();
+		checkBoxC = new JCheckBox();
+		
+		saidaA = new JCheckBox();
+		saidaA.setEnabled(false);
+		
+		saidaB = new JCheckBox();
+		saidaB.setEnabled(false);
 		
 		objetoDasPortas[0] = new AndGate();
 		objetoDasPortas[1] = new OrGate();
@@ -66,17 +88,17 @@ public class Screen extends JPanel implements ActionListener {
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(this);
 		
-		entradasA = new JComboBox<Object>(entradas);
-		entradasA.setSelectedIndex(1);
-		entradasA.addActionListener(this);
-		
-		entradasB = new JComboBox<Object>(entradas);
-		entradasB.setSelectedIndex(1);
-		entradasB.addActionListener(this);
-		
-		entradasC = new JComboBox<Object>(entradas);
-		entradasC.setSelectedIndex(1);
-		entradasC.addActionListener(this);
+//		entradasA = new JComboBox<Object>(entradas);
+//		entradasA.setSelectedIndex(1);
+//		entradasA.addActionListener(this);
+//		
+//		entradasB = new JComboBox<Object>(entradas);
+//		entradasB.setSelectedIndex(1);
+//		entradasB.addActionListener(this);
+//		
+//		entradasC = new JComboBox<Object>(entradas);
+//		entradasC.setSelectedIndex(1);
+//		entradasC.addActionListener(this);
 						
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -86,8 +108,8 @@ public class Screen extends JPanel implements ActionListener {
 		
 		// Abrir as imagens
 		try {
-			lampadaOn = Image.makeImage("src/img/lampadaOn.jpg");
-			lampadaOff = Image.makeImage("src/img/lampadaOff.jpg");
+//			lampadaOn = Image.makeImage("src/img/lampadaOn.jpg");
+//			lampadaOff = Image.makeImage("src/img/lampadaOff.jpg");
 			switchOnA = Image.makeImage("src/img/switchOn.png");
 			switchOnB = Image.makeImage("src/img/switchOn.png");
 			switchOnC = Image.makeImage("src/img/switchOn.png");
@@ -101,8 +123,8 @@ public class Screen extends JPanel implements ActionListener {
 		
 		// Redimencionar as imagens
 		try {
-			lampadaOn = Image.resizeBufferedImage(lampadaOn, 50, 50);
-			lampadaOff = Image.resizeBufferedImage(lampadaOff, 50, 50);
+//			lampadaOn = Image.resizeBufferedImage(lampadaOn, 50, 50);
+//			lampadaOff = Image.resizeBufferedImage(lampadaOff, 50, 50);
 			switchOnA = Image.resizeBufferedImage(switchOnA, 50, 50);
 			switchOnB = Image.resizeBufferedImage(switchOnB, 50, 50);
 			switchOnC = Image.resizeBufferedImage(switchOnC, 50, 50);
@@ -125,8 +147,8 @@ public class Screen extends JPanel implements ActionListener {
 		inC = new Switch();
 		
 		// Imagens iniciais
-		lampadaB = Image.bufferedImageToJLabel(lampadaOff);
-		lampadaA = Image.bufferedImageToJLabel(lampadaOff);
+//		lampadaB = Image.bufferedImageToJLabel(lampadaOff);
+//		lampadaA = Image.bufferedImageToJLabel(lampadaOff);
 		switchA = Image.bufferedImageToJLabel(switchOffA);
 		switchB = Image.bufferedImageToJLabel(switchOffB);
 		switchC = Image.bufferedImageToJLabel(switchOffC);
@@ -174,8 +196,6 @@ public class Screen extends JPanel implements ActionListener {
 			}
 		});
 
-
-		
 		
 		frameTitle = new JLabel("Escolha uma Porta");
 		frameTitle.setFont(new Font("", Font.PLAIN, 24));
@@ -212,27 +232,37 @@ public class Screen extends JPanel implements ActionListener {
 		buttonSelecionar.setBounds(20 + insets.left, (frameHeight - size.height * 3) + insets.top, size.width, size.height);
 		
 		// Portas básicas e Xor
-		panel.add(entradasA);
-		panel.add(entradasB);
+//		panel.add(entradasA);
+//		panel.add(entradasB);
 		panel.add(tituloSwitchA);
 		panel.add(tituloSwitchB);
 		panel.add(switchA);
 		panel.add(switchB);
-		panel.add(lampadaA);
+//		panel.add(lampadaA);
+		panel.add(checkBoxA);
+		panel.add(checkBoxB);
+		panel.add(saidaA);
 		
+		size = checkBoxA.getPreferredSize();
+		checkBoxA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
+		size = checkBoxB.getPreferredSize();
+		checkBoxB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 		
-		size = entradasA.getPreferredSize();
-		entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
-		size = entradasB.getPreferredSize();
-		entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
+//		size = entradasA.getPreferredSize();
+//		entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
+//		size = entradasB.getPreferredSize();
+//		entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 		
 		size = tituloSwitchA.getPreferredSize();
 		tituloSwitchA.setBounds(25 + insets.left, 160 + insets.top, size.width, size.height);
 		size = tituloSwitchB.getPreferredSize();
 		tituloSwitchB.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 		
-		size = lampadaA.getPreferredSize();
-		lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+//		size = lampadaA.getPreferredSize();
+//		lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+		size = saidaA.getPreferredSize();
+		saidaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+		
 		
 		size = switchA.getPreferredSize();
 		switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
@@ -275,26 +305,34 @@ public class Screen extends JPanel implements ActionListener {
 		
 		if(this.doorStyle == 0) {
 			// Portas básicas e Xor
-			panel.add(entradasA);
-			panel.add(entradasB);
+//			panel.add(entradasA);
+//			panel.add(entradasB);
 			panel.add(tituloSwitchA);
 			panel.add(tituloSwitchB);
 			panel.add(switchA);
 			panel.add(switchB);
-			panel.add(lampadaA);
+//			panel.add(lampadaA);
+			panel.add(checkBoxA);
+			panel.add(checkBoxB);
+			panel.add(saidaA);
 			
-			size = entradasA.getPreferredSize();
-			entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
-			size = entradasB.getPreferredSize();
-			entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
+			size = checkBoxA.getPreferredSize();
+			checkBoxA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
+			size = checkBoxB.getPreferredSize();
+			checkBoxB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
+			
+//			size = entradasA.getPreferredSize();
+//			entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
+//			size = entradasB.getPreferredSize();
+//			entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 			
 			size = tituloSwitchA.getPreferredSize();
 			tituloSwitchA.setBounds(25 + insets.left, 160 + insets.top, size.width, size.height);
 			size = tituloSwitchB.getPreferredSize();
 			tituloSwitchB.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 			
-			size = lampadaA.getPreferredSize();
-			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			size = saidaA.getPreferredSize();
+			saidaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
 			switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
@@ -303,48 +341,59 @@ public class Screen extends JPanel implements ActionListener {
 			
 		} else if(this.doorStyle == 1) {
 			// Not
-			panel.add(entradasA);
+//			panel.add(entradasA);
 			panel.add(tituloSwitchA);
 			panel.add(switchA);
-			panel.add(lampadaA);
+//			panel.add(lampadaA);
+			panel.add(checkBoxA);
+			panel.add(saidaA);
 				
-			size = entradasA.getPreferredSize();
-			entradasA.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
+			size = checkBoxA.getPreferredSize();
+			checkBoxA.setBounds(25 + insets.left, 200 + insets.top, size.width, size.height);
 			
 			size = tituloSwitchA.getPreferredSize();
 			tituloSwitchA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
 			
-			size = lampadaA.getPreferredSize();
-			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			size = saidaA.getPreferredSize();
+			saidaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
 			switchA.setBounds(150 + insets.left, 190 + insets.top, size.width, size.height);
 			
 		} else if(this.doorStyle == 2) {
 			// HalfAdder
-			panel.add(entradasA);
-			panel.add(entradasB);
+//			panel.add(entradasA);
+//			panel.add(entradasB);
 			panel.add(tituloSwitchA);
 			panel.add(tituloSwitchB);
 			panel.add(switchA);
 			panel.add(switchB);
-			panel.add(lampadaA);
-			panel.add(lampadaB);
+//			panel.add(lampadaA);
+//			panel.add(lampadaB);
+			panel.add(checkBoxA);
+			panel.add(checkBoxB);
+			panel.add(saidaA);
+			panel.add(saidaB);
 			
-			size = entradasA.getPreferredSize();
-			entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
-			size = entradasB.getPreferredSize();
-			entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
+			size = checkBoxA.getPreferredSize();
+			checkBoxA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
+			size = checkBoxB.getPreferredSize();
+			checkBoxB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
+			
+//			size = entradasA.getPreferredSize();
+//			entradasA.setBounds(25 + insets.left, 180 + insets.top, size.width, size.height);
+//			size = entradasB.getPreferredSize();
+//			entradasB.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 			
 			size = tituloSwitchA.getPreferredSize();
 			tituloSwitchA.setBounds(25 + insets.left, 160 + insets.top, size.width, size.height);
 			size = tituloSwitchB.getPreferredSize();
 			tituloSwitchB.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 			
-			size = lampadaA.getPreferredSize();
-			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
-			size = lampadaB.getPreferredSize();
-			lampadaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
+			size = saidaA.getPreferredSize();
+			saidaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			size = saidaB.getPreferredSize();
+			saidaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
 			switchA.setBounds(150 + insets.left, 170 + insets.top, size.width, size.height);
@@ -353,24 +402,42 @@ public class Screen extends JPanel implements ActionListener {
 			
 		} else if(doorStyle == 3) {
 			// FullAdder
-			panel.add(entradasA);
-			panel.add(entradasB);
-			panel.add(entradasC);
+//			panel.add(entradasA);
+//			panel.add(entradasB);
+//			panel.add(entradasC);
 			panel.add(tituloSwitchA);
 			panel.add(tituloSwitchB);
 			panel.add(tituloSwitchC);
 			panel.add(switchA);
 			panel.add(switchB);
 			panel.add(switchC);
-			panel.add(lampadaA);
-			panel.add(lampadaB);
+//			panel.add(lampadaA);
+//			panel.add(lampadaB);
+			panel.add(checkBoxA);
+			panel.add(checkBoxB);
+			panel.add(checkBoxC);
+			panel.add(saidaA);
+			panel.add(saidaB);
 			
-			size = entradasA.getPreferredSize();
-			entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
-			size = entradasB.getPreferredSize();
-			entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
-			size = entradasC.getPreferredSize();
-			entradasC.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
+			
+			size = saidaA.getPreferredSize();
+			saidaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			size = saidaB.getPreferredSize();
+			saidaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
+			
+			size = checkBoxA.getPreferredSize();
+			checkBoxA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+			size = checkBoxB.getPreferredSize();
+			checkBoxB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+			size = checkBoxC.getPreferredSize();
+			checkBoxC.setBounds(25 + insets.left, 330 + insets.top, size.width, size.height);
+			
+//			size = entradasA.getPreferredSize();
+//			entradasA.setBounds(25 + insets.left, 140 + insets.top, size.width, size.height);
+//			size = entradasB.getPreferredSize();
+//			entradasB.setBounds(25 + insets.left, 220 + insets.top, size.width, size.height);
+//			size = entradasC.getPreferredSize();
+//			entradasC.setBounds(25 + insets.left, 300 + insets.top, size.width, size.height);
 			
 			size = tituloSwitchA.getPreferredSize();
 			tituloSwitchA.setBounds(25 + insets.left, 120 + insets.top, size.width, size.height);
@@ -379,10 +446,10 @@ public class Screen extends JPanel implements ActionListener {
 			size = tituloSwitchC.getPreferredSize();
 			tituloSwitchC.setBounds(25 + insets.left, 280 + insets.top, size.width, size.height);
 			
-			size = lampadaA.getPreferredSize();
-			lampadaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
-			size = lampadaB.getPreferredSize();
-			lampadaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
+			size = saidaA.getPreferredSize();
+			saidaA.setBounds((frameWidth - size.width * 2) + insets.left, (frameHeight / 2 - size.height * 2) + insets.top, size.width, size.height);
+			size = saidaB.getPreferredSize();
+			saidaB.setBounds((frameWidth - size.width * 2) + insets.left, 280 + insets.top, size.width, size.height);
 			
 			size = switchA.getPreferredSize();
 			switchA.setBounds(150 + insets.left, 130 + insets.top, size.width, size.height);
@@ -400,7 +467,7 @@ public class Screen extends JPanel implements ActionListener {
 	private void defineLogica() {
 		if(this.doorStyle == 3) {
 			// FullAdder
-			if(entradasA.getSelectedIndex() == 0) {
+			if(checkBoxA.isSelected()) {
 				switchValueA = true;
 				currentSwitchStateA = switchOnA;
 				
@@ -411,7 +478,7 @@ public class Screen extends JPanel implements ActionListener {
 	
 			}
 		    
-		    if(entradasB.getSelectedIndex() == 0) {
+		    if(checkBoxB.isSelected()) {
 				currentSwitchStateB = switchOnB;
 				switchValueB = true; 
 				
@@ -421,7 +488,7 @@ public class Screen extends JPanel implements ActionListener {
 				
 			}
 		    
-		    if(entradasC.getSelectedIndex() == 0) {
+		    if(checkBoxC.isSelected()) {
 		    	currentSwitchStateC = switchOnC;
 		    	switchValueC = true;
 		    
@@ -444,34 +511,43 @@ public class Screen extends JPanel implements ActionListener {
 		    currentGate.setPinA(pinA);
 		    currentGate.setPinB(pinB);
 		    currentGate.setPinC(pinC);
-	
 		    
+		    pinLampA.setIndex(0);
+		    pinLampA.setSource(currentGate);
+		    pinLampB.setIndex(1);
+		    pinLampB.setSource(currentGate);
 		    
-		    if(currentGate.getOutputValue(0)) {
-		    	currentImage = lampadaOn;
+		    lampA.setInputPin(pinLampA);
+		    lampB.setInputPin(pinLampB);
 		    
-		    } else {
-		    	currentImage = lampadaOff;
+		    saidaA.setSelected(lampA.isOn());
+		    saidaB.setSelected(lampB.isOn());
 		    
-		    }
-		    
-		    if(currentGate.getOutputValue(1)) {
-		    	currentImageB = lampadaOn;
-		    	
-		    } else {
-		    	currentImageB = lampadaOff;
-		    	
-		    }
-		    
-		    lampadaA.setIcon(new ImageIcon(currentImage));
-		    lampadaB.setIcon(new ImageIcon(currentImageB));
+//		    if(currentGate.getOutputValue(0)) {
+//		    	currentImage = lampadaOn;
+//		    
+//		    } else {
+//		    	currentImage = lampadaOff;
+//		    
+//		    }
+//		    
+//		    if(currentGate.getOutputValue(1)) {
+//		    	currentImageB = lampadaOn;
+//		    	
+//		    } else {
+//		    	currentImageB = lampadaOff;
+//		    	
+//		    }
+//		    
+//		    lampadaA.setIcon(new ImageIcon(currentImage));
+//		    lampadaB.setIcon(new ImageIcon(currentImageB));
 			switchA.setIcon(new ImageIcon(currentSwitchStateA));
 			switchB.setIcon(new ImageIcon(currentSwitchStateB));
 			switchC.setIcon(new ImageIcon(currentSwitchStateC));
 			
 		} else if(this.doorStyle == 2) {
 			// HalfAdder
-			if(entradasA.getSelectedIndex() == 0) {
+			if(checkBoxA.isSelected()) {
 				switchValueA = true;
 				currentSwitchStateA = switchOnA;
 				
@@ -482,7 +558,7 @@ public class Screen extends JPanel implements ActionListener {
 	
 			}
 		    
-		    if(entradasB.getSelectedIndex() == 0) {
+		    if(checkBoxB.isSelected()) {
 				currentSwitchStateB = switchOnB;
 				switchValueB = true; 
 				
@@ -502,30 +578,41 @@ public class Screen extends JPanel implements ActionListener {
 		    currentGate.setPinA(pinA);
 		    currentGate.setPinB(pinB);
 	
-		    if(currentGate.getOutputValue(0)) {
-		    	currentImage = lampadaOn;
+		    pinLampA.setIndex(0);
+		    pinLampA.setSource(currentGate);
+		    pinLampB.setIndex(1);
+		    pinLampB.setSource(currentGate);
 		    
-		    } else {
-		    	currentImage = lampadaOff;
+		    lampA.setInputPin(pinLampA);
+		    lampB.setInputPin(pinLampB);
 		    
-		    }
+		    saidaA.setSelected(lampA.isOn());
+		    saidaB.setSelected(lampB.isOn());
 		    
-		    if(currentGate.getOutputValue(1)) {
-		    	currentImageB = lampadaOn;
-		    	
-		    } else {
-		    	currentImageB = lampadaOff;
-		    	
-		    }
-		    
-		    lampadaA.setIcon(new ImageIcon(currentImage));
-		    lampadaB.setIcon(new ImageIcon(currentImageB));
+//		    if(currentGate.getOutputValue(0)) {
+//		    	currentImage = lampadaOn;
+//		    
+//		    } else {
+//		    	currentImage = lampadaOff;
+//		    
+//		    }
+//		    
+//		    if(currentGate.getOutputValue(1)) {
+//		    	currentImageB = lampadaOn;
+//		    	
+//		    } else {
+//		    	currentImageB = lampadaOff;
+//		    	
+//		    }
+//		    
+//		    lampadaA.setIcon(new ImageIcon(currentImage));
+//		    lampadaB.setIcon(new ImageIcon(currentImageB));
 			switchA.setIcon(new ImageIcon(currentSwitchStateA));
 			switchB.setIcon(new ImageIcon(currentSwitchStateB));
 			
 		} else if(this.doorStyle == 0) {
 			// AND, OR e XOR
-			if(entradasA.getSelectedIndex() == 0) {
+			if(checkBoxA.isSelected()) {
 				switchValueA = true;
 				currentSwitchStateA = switchOnA;
 				
@@ -536,7 +623,7 @@ public class Screen extends JPanel implements ActionListener {
 	
 			}
 		    
-		    if(entradasB.getSelectedIndex() == 0) {
+		    if(checkBoxB.isSelected()) {
 				currentSwitchStateB = switchOnB;
 				switchValueB = true; 
 				
@@ -555,22 +642,28 @@ public class Screen extends JPanel implements ActionListener {
 			currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
 		    currentGate.setPinA(pinA);
 		    currentGate.setPinB(pinB);
-	
-		    if(currentGate.getOutputValue(0)) {
-		    	currentImage = lampadaOn;
 		    
-		    } else {
-		    	currentImage = lampadaOff;
+		    pinLampA.setSource(currentGate);
 		    
-		    }
+		    lampA.setInputPin(pinLampA);
 		    
-		    lampadaA.setIcon(new ImageIcon(currentImage));
+		    saidaA.setSelected(lampA.isOn());
+		    
+//		    if(currentGate.getOutputValue(0)) {
+//		    	currentImage = lampadaOn;
+//		    
+//		    } else {
+//		    	currentImage = lampadaOff;
+//		    
+//		    }
+//		    
+//		    lampadaA.setIcon(new ImageIcon(currentImage));
 			switchA.setIcon(new ImageIcon(currentSwitchStateA));
 			switchB.setIcon(new ImageIcon(currentSwitchStateB));
 			
 		} else if(this.doorStyle == 1) {
 			// NOT
-			if(entradasA.getSelectedIndex() == 0) {
+			if(checkBoxA.isSelected()) {
 				switchValueA = true;
 				currentSwitchStateA = switchOnA;
 				
@@ -581,19 +674,25 @@ public class Screen extends JPanel implements ActionListener {
 			}	
 		    inA.setOutputValue(switchValueA);
 			pinA.setSource(inA);
-
+			
 			currentGate = objetoDasPortas[comboBox.getSelectedIndex()];
 		    currentGate.setPinA(pinA);
+		    
+		    pinLampA.setIndex(0);
+		    pinLampA.setSource(currentGate);
 
-	
-		    if(currentGate.getOutputValue(0)) {
-		    	currentImage = lampadaOn;
+		    lampA.setInputPin(pinLampA);
 		    
-		    } else {
-		    	currentImage = lampadaOff;
-		    
-		    }
-		    lampadaA.setIcon(new ImageIcon(currentImage));
+		    saidaA.setSelected(lampA.isOn());
+
+//		    if(currentGate.getOutputValue(0)) {
+//		    	currentImage = lampadaOn;
+//		    
+//		    } else {
+//		    	currentImage = lampadaOff;
+//		    
+//		    }
+//		    lampadaA.setIcon(new ImageIcon(currentImage));
 			switchA.setIcon(new ImageIcon(currentSwitchStateA));
 		
 		}
