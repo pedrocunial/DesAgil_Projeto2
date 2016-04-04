@@ -10,6 +10,7 @@ O objetivo do projeto é, utilizando TDD (desenvolvimento guiado à testes), mon
 ## Notas de Instalação
 
 Este projeto utiliza, além da biblioteca Java 7 padrão, as bibliotecas JUnit4 e Thumbnailator.
+
 Download Thumbnailator (Vá na aba releases e baixe o zip da última versão): https://github.com/coobird/thumbnailator
 
 
